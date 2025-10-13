@@ -100,7 +100,8 @@ def totalSegundos(horaNow):
 
     tiempoTranscurrido = tH + tM + s
     print("El tiempo transcurrido en segundos es: " , tiempoTranscurrido)
-
+""". Escribe un programa que lea una longitud en kilómetros y muestre su 
+equivalencia en Hm, Dm y m utilizando una función para cada cálculo.   """
 def converterKm(km):
     hm = km * 10
     dm = km * 100
@@ -108,7 +109,122 @@ def converterKm(km):
     print("Equivalencia en Hm:", hm)
     print("Equivalencia en Dm:", dm)
     print("Equivalencia en m:", m)
-    
+
+""" Escribe una función que determine si un punto de coordenadas en 2D está o no 
+sobre la circunferencia x2+y2=1000.  """
+def dimensiones():
+
+    d_dimensiones = {# Diccionario
+        "dentro": [],
+        "sobre": [],
+        "fuera": []
+    }
+    lista_puntos = [(10, 10), (20, 20), (35, 0), (0, 32), (5, 28)]
+
+    for (x, y) in lista_puntos:
+        calc = x ** 2 + y ** 2
+
+        if calc == 1000:
+            print("El punto de coordenadas está sobre la circunferencia")
+            categoria = "sobre"
+        elif calc < 1000:
+            categoria = "dentro"
+        else:
+            categoria = "fuera"
+
+        d_dimensiones[categoria].append((x, y))
+
+    print("Resultados de clasificación:")
+    for categoria, lista in d_dimensiones.items():
+        print(f"{categoria}: {lista}")
+
+"""  El antiguo sistema anglosajón de unidades sigue en vigor en muchos lugares y 
+su uso es frecuente en algunos contextos. Programa una función que determine el 
+número de pintas que contiene una cierta cantidad de líquido expresada en 
+mililitros, sabiendo que 1 pinta (pt) = 473,176473 ml.   """
+def pinta(ml):
+    pinta = ml / 473.176473
+    print(f"{ml} ml equivalen a {pinta:.4f} pintas.")
+
+""" Escribe un programa que muestre por pantalla la tabla de multiplicar de un 
+número dado invocando para ello una función a la que le pasará dicho número. 
+Utilice el siguiente formato (ejemplo para la tabla del 1):  """
+def t_mult(n):
+    print(f"La tabla de multiplicar del {n} es: \n")
+    for i in range(1, 11):
+        res = i * n
+        print(f"{i} * {n} =", res)
+""" La temperatura expresada en grados centígrados TC, se puede convertir a 
+grados Fahrenheit (TF) mediante la siguiente fórmula: TF = 9*TC/5 + 32. 
+Igualmente, es sabido que −273,15 °C corresponden con el 0 Kelvin. Escribe una 
+función devuelva la temperatura en grados Farenheit y otra en Kelvin a partir de la 
+temperatura en grados centígrados. Escribe un programa para probarlas que pida al 
+usuario una temperatura en grados centígrados.  """
+def grados(res):
+    g_f = ((9 * res) / 5) + 32
+    print (f"La temperatura grados Fahrenheit (TF) es : {g_f}")
+
+""" Escribe una función que a partir de las coordenadas 3D de dos puntos en el 
+espacio en formato (x, y, z) calcule la distancia que hay entre dichos puntos. 
+Prueba su función y el resultado por pantalla.   """
+
+def distancia(x1,y1,z1,x2,y2,z2):
+    p1 = x1,y1,z1
+    p2 = x2,y2,z2
+
+    dis = math.sqrt((x2 - x1)**2  + (y2 - y1)**2 + (z2-z1)**2)
+    print(f"La distancia entre {p1} y {p2} es: {dis:.4f}")
+
+"""Un número complejo es un número de la forma a+bi, donde a y b son números 
+reales y el valor de i es √−1 . Las cuatro operaciones aritméticas básicas sobre 
+números complejos se definen como:  
+ Suma: (a+bi)+(c+di)=(a+c)+(b+d)i  
+ Resta: (a+bi)-(c+di)=(a-c)+(b-d)i  
+ Producto: (a+bi)*(c+di)=(ac-bd)+(ad+bc)i  
+ División: (a+bi)/(c+di) = ((ac+bd)/(c2+d2)) + ((bc-ad)/(c2+d2))i, 
+suponiendo c2+d2<>0
+Programa funciones, para cada una de las operaciones descritas, y posteriormente, 
+realiza un programa probador que lea dos números complejos y muestre por 
+pantalla el resultado de las operaciones reseñadas.  """
+def suma_complejos(p1, p2):
+    """Suma dos números complejos p1 + p2"""
+    a, b = p1
+    c, d = p2
+    return (a + c, b + d)
+
+def resta_complejos(p1, p2):
+    """Resta dos números complejos p1 - p2"""
+    a, b = p1
+    c, d = p2
+    return (a - c, b - d)
+
+def producto_complejos(p1, p2):
+    """Producto de dos números complejos p1 * p2"""
+    a, b = p1
+    c, d = p2
+    return (a * c - b * d, a * d + b * c)
+
+def division_complejos(p1, p2):
+    """División de dos números complejos p1 / p2"""
+    a, b = p1
+    c, d = p2
+    if c == 0 and d == 0:
+        raise ValueError("No se puede dividir por cero.")
+    divisor = c**2 + d**2
+    return ((a * c + b * d) / divisor, (b * c - a * d) / divisor)
+
+def mostrar_complejo(p):
+    """Muestra un número complejo en formato a + bi"""
+    x, y = p
+    if y >= 0:
+        return f"{x:.4f} + {y:.4f}i"
+    else:
+        return f"{x:.4f} - {abs(y):.4f}i"
+""" Un año es bisiesto si es divisible por 400 o si lo es por 4 pero no por 100. 
+Programa una función que reciba un año y decida si es o no bisiesto. """
+
+def bisiesto(a):
+    return (a % 4 == 0 and a % 100 != 0) or (a % 400 == 0)
 def menu():
     #valorar opcion de hacer un for in range
     opcion = -1  # valor inicial
@@ -173,6 +289,55 @@ def menu():
                 print("\n\nEjecutando ejercicio 8...\n")
                 km = float(input("Introduce la longitud en km: "))
                 converterKm(km)
+            case "9":
+                print("\n\nEjecutando ejercicio 9...\n")
+                dimensiones()
+                print("\n\n")
+            case "10":
+                print("\n\nEjecutando ejercicio 10...\n")
+                res = int(input("Escriba el valor del liquido"))
+                pinta(res)
+            case "11":
+                print("\n\nEjecutando ejercicio 11...\n")
+                res = int(input("Escriba un numero para averiguar su tabla de multiplicar"))
+                t_mult(res)
+            case "12":
+                print("\n\nEjecutando ejercicio 12...\n")
+                res = int(input("Escriba la temperatura en ºC: "))
+                grados(res)
+            case "13":
+                print("\n\nEjecutando ejercicio 13...\n")
+                x1 = int(input("Escriba la coordenada x del punto 1: "))
+                y1 = int(input("Escriba la coordenada y del punto 1: "))
+                z1 = int(input("Escriba la coordenada z del punto 1: "))
+
+                x2 = int(input("Escriba la coordenada x del punto 2: "))
+                y2 = int(input("Escriba la coordenada y del punto 2: "))
+                z2 = int(input("Escriba la coordenada z del punto 2: "))
+                distancia(x1,y1,z1,x2,y2,z2)
+            case "14":
+                print("\n\nEjecutando ejercicio 13...\n")
+                print("Introduce el primer número complejo (a + bi):")
+                a = float(input("a = "))
+                b = float(input("b = "))
+                p1 = (a, b)
+
+                print("\nIntroduce el segundo número complejo (c + di):")
+                c = float(input("c = "))
+                d = float(input("d = "))
+                p2 = (c, d)
+
+                # Operaciones
+                print("\nResultados:")
+                print("Suma:      ", mostrar_complejo(suma_complejos(p1, p2)))
+                print("Resta:     ", mostrar_complejo(resta_complejos(p1, p2)))
+                print("Producto:  ", mostrar_complejo(producto_complejos(p1, p2)))
+                print("División:  ", mostrar_complejo(division_complejos(p1, p2)))
+            case "15":
+                print("\n\nEjecutando ejercicio 13...\n")
+                print("Introduce el año para saber si es bisiesto:")
+                a = int(input("a : "))
+                print("Bisiesto" if bisiesto(a) else "No es bisiesto") #Lo mas parecido a un ternario en Java
             case "0":
                 print("Seleccione un número válido.\n")
 
