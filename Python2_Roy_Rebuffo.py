@@ -1,4 +1,13 @@
 import math;
+print(r"""
+ ______   __  __     ______   __  __     ______     __   __
+/\  == \ /\ \_\ \   /\__  _\ /\ \_\ \   /\  __ \   /\ "-.\ \
+\ \  _-/ \ \____ \  \/_/\ \/ \ \  __ \  \ \ \/\ \  \ \ \-.  \
+ \ \_\    \/\_____\    \ \_\  \ \_\ \_\  \ \_____\  \ \_\"\_ \
+  \/_/     \/_____/     \/_/   \/_/\/_/   \/_____/   \/_/ \/_/
+""")
+
+
 """ 1. Implementa una función “fuerza” que retorne el valor de la fuerza en función de
 los valores de masa y aceleración recibidos como parámetros. Implementa,
 posteriormente, un programa probador que, leyendo de teclado los valores
@@ -42,7 +51,7 @@ def barnsAmetros():
 """ 4. Implementa un programa modularizado que, leyendo la nota obtenida por tres
 alumnos en una asignatura, muestre por pantalla la media de las notas. """
 def media(a1,a2,a3):
-    notas = {a1,a2,a3}#Lista
+    notas = {a1,a2,a3}#Diccionario
     cont = 0
     acum = 0
 
@@ -115,11 +124,11 @@ sobre la circunferencia x2+y2=1000.  """
 def dimensiones():
 
     d_dimensiones = {# Diccionario
-        "dentro": [],
+        "dentro": [],#claves
         "sobre": [],
         "fuera": []
     }
-    lista_puntos = [(10, 10), (20, 20), (35, 0), (0, 32), (5, 28)]
+    lista_puntos = [(30, 10), (20, 20), (35, 0), (0, 32), (5, 28)] #valores
 
     for (x, y) in lista_puntos:
         calc = x ** 2 + y ** 2
@@ -132,11 +141,11 @@ def dimensiones():
         else:
             categoria = "fuera"
 
-        d_dimensiones[categoria].append((x, y))
+        d_dimensiones[categoria].append((x, y)) #añado los valores
 
     print("Resultados de clasificación:")
-    for categoria, lista in d_dimensiones.items():
-        print(f"{categoria}: {lista}")
+    for categoria, lista in d_dimensiones.items(): #.items devuelve la clave y valor
+        print(f"{categoria}: {lista}") #Clave(categoria), valor (lista)
 
 """  El antiguo sistema anglosajón de unidades sigue en vigor en muchos lugares y 
 su uso es frecuente en algunos contextos. Programa una función que determine el 
@@ -162,8 +171,10 @@ temperatura en grados centígrados. Escribe un programa para probarlas que pida 
 usuario una temperatura en grados centígrados.  """
 def grados(res):
     g_f = ((9 * res) / 5) + 32
+    g_k = 273.15 + res;
     print (f"La temperatura grados Fahrenheit (TF) es : {g_f}")
-
+    print (f"La temperatura grados Kelvin (TK) es : {g_k}")
+    
 """ Escribe una función que a partir de las coordenadas 3D de dos puntos en el 
 espacio en formato (x, y, z) calcule la distancia que hay entre dichos puntos. 
 Prueba su función y el resultado por pantalla.   """
@@ -220,6 +231,13 @@ def mostrar_complejo(p):
         return f"{x:.4f} + {y:.4f}i"
     else:
         return f"{x:.4f} - {abs(y):.4f}i"
+    
+def numerosComplejos(c1,c2):
+
+    print(c1 + c2)
+    print(c1 - c2)
+    print(c1 * c2)
+    print(c1 / c2)
 """ Un año es bisiesto si es divisible por 400 o si lo es por 4 pero no por 100. 
 Programa una función que reciba un año y decida si es o no bisiesto. """
 
@@ -317,22 +335,10 @@ def menu():
                 distancia(x1,y1,z1,x2,y2,z2)
             case "14":
                 print("\n\nEjecutando ejercicio 13...\n")
-                print("Introduce el primer número complejo (a + bi):")
-                a = float(input("a = "))
-                b = float(input("b = "))
-                p1 = (a, b)
-
-                print("\nIntroduce el segundo número complejo (c + di):")
-                c = float(input("c = "))
-                d = float(input("d = "))
-                p2 = (c, d)
-
-                # Operaciones
-                print("\nResultados:")
-                print("Suma:      ", mostrar_complejo(suma_complejos(p1, p2)))
-                print("Resta:     ", mostrar_complejo(resta_complejos(p1, p2)))
-                print("Producto:  ", mostrar_complejo(producto_complejos(p1, p2)))
-                print("División:  ", mostrar_complejo(division_complejos(p1, p2)))
+                comp1 = complex(input("Indtroduzca el primer numero complejo(ej. 2+3j): "))
+                comp2 = complex(input("Indtroduzca el segundo numero complejo(ej. 2+3j): "))
+                numerosComplejos(comp1,comp2);
+                
             case "15":
                 print("\n\nEjecutando ejercicio 13...\n")
                 print("Introduce el año para saber si es bisiesto:")
