@@ -1,17 +1,5 @@
 import random
 """Nota: Para hacer el ejercicio más cómodo ya que no hay menú he creado una función para llamar a los ejercicios por sus nombres en el if de aqui abajo."""
-if __name__ == "__main__":
-    print(r"""
-         ______   __  __     ______   __  __     ______     __   __
-        /\  == \ /\ \_\ \   /\__  _\ /\ \_\ \   /\  __ \   /\ "-.\ \
-        \ \  _-/ \ \____ \  \/_/\ \/ \ \  __ \  \ \ \/\ \  \ \ \-.  \
-         \ \_\    \/\_____\    \ \_\  \ \_\ \_\  \ \_____\  \ \_\"\_ \
-          \/_/     \/_____/     \/_/   \/_/\/_/   \/_____/   \/_/ \/_/
-        """)
-
-    # sumaListasDesiguales()
-    # esPalindromo("Anilina")
-    # listaEstadisticas()
 
 """1. Escribe un código que implemente el siguiente comportamiento: “Si la compra es
 superior a 100EUR se aplica un descuento del 5% si se paga al contado, pero si el pago
@@ -49,7 +37,6 @@ def compras():
     print("Resultados: \n")
     for categoria, l in d_compras.items():
         print(f"{categoria} : {l}")
-
 
 """2. Una universidad acaba de modificar su sistema de representación de la calificación
 de los alumnos, que como es sabido son valores entre 0 y 10. A partir de ahora, se
@@ -373,3 +360,76 @@ def separarDiccionario(dic, lista):
             no_en_dic.append(item)
     print("Valores en el diccionario:", en_dic)
     print("Elementos NO en el diccionario:", no_en_dic)
+
+if __name__ == "__main__":
+    print(r"""
+         ______   __  __     ______   __  __     ______     __   __
+        /\  == \ /\ \_\ \   /\__  _\ /\ \_\ \   /\  __ \   /\ "-.\ \
+        \ \  _-/ \ \____ \  \/_/\ \/ \ \  __ \  \ \ \/\ \  \ \ \-.  \
+         \ \_\    \/\_____\    \ \_\  \ \_\ \_\  \ \_____\  \ \_\"\_ \
+          \/_/     \/_____/     \/_/   \/_/\/_/   \/_____/   \/_/ \/_/
+        """)
+    # 🔹 1. Ordenar tres enteros
+    # compras()
+
+    # 🔹 2. Calificar notas
+    # notas()
+
+    # 🔹 3. Ordenar tres enteros
+    # ordenar()
+
+    # 🔹 4. Mostrar mes correspondiente al número
+    # meses(5)
+
+    # 🔹 5. Calcular media, mayor y menor
+    # media()
+
+    # 🔹 6. Sumar listas iguales
+    # sumaListas([1, 2, 3], [4, 5, 6])
+
+    # 🔹 7. Sumar listas desiguales
+    # sumaListasDesiguales([1, 2, 3, 4], [10, 20])
+
+    # 🔹 8. Dos listas ordenadas (aleatorias)
+    # dosListasOrdenadas()
+
+    # 🔹 9. Media, máximo y mínimo de lista aleatoria
+    # listaEstadisticas()
+
+    # 🔹 10. Palíndromo
+    # esPalindromo("Anita lava la tina")
+
+    # 🔹 11. Capitalizar frase
+    # capitalizarFrase("hola que tal roy")
+
+    # 🔹 12. Cadenas iguales
+    # cadenasIguales("hola", "hola")
+
+    # 🔹 13. Contiene todas las vocales
+    # contieneTodasVocales("murciélago")
+
+    # 🔹 14. Codificar frase
+    # codificarFrase("Un perro del hortelano")
+
+    # 🔹 15. Estadísticas de palabras
+    # estadisticaPalabras()
+
+    # 🔹 16. Persona (crea y muestra persona)
+    # p = persona(1, "M", 25)
+    # mostrarPersona(p)
+
+    # 🔹 17 y 18. Cronología
+    # cronologia([(1, 1, 2000), (5, 5, 2020), (1, 1, 2070)])
+
+    # 🔹 19. Restar cada valor con el siguiente
+    # restarArray([10, 20, 30, 40])
+
+    # 🔹 20. Gasolinera
+    # gastosGasolinera([10, 20, 30], [5, 10, 15])
+
+    # 🔹 21. Agenda
+    # agenda = llenarAgenda()
+    # mostrarAgenda(agenda)
+
+    # 🔹 22. Diccionario y lista
+    # separarDiccionario({"rojo": "color", "perro": "animal"}, ["rojo", "gato", "perro"])
