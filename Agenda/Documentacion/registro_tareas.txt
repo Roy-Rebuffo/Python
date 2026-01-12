@@ -1,0 +1,4 @@
+#Introduccion de Datos
+- Validación DNI con CSV
+- Control de errores con while
+- Guardado correcto en agenda.csv

@@ -1,0 +1,4 @@
+Con el fin de entender bien el comportamiento de las rutas en Python "Import os" para:
+    Averiguar dónde está 'main.py' (en este caso, dentro de /Modules)
+    Construye la ruta: "Sube un nivel (..) y entra en Data"
+    Pero lo hace partiendo de la ubicación de main.py, no de la terminal.

@@ -1,25 +1,89 @@
+import os
+"""****************************************************VARIABLES GLOBALES****************************************************"""
+ruta_del_script = os.path.dirname(__file__)
+
+ruta_dni = os.path.join(ruta_del_script, "..", "Data", "dni.csv")
+ruta_provincias = os.path.join(ruta_del_script, "..", "Data", "provincias.csv")
+ruta_agenda = os.path.join(ruta_del_script, "..", "Data", "agenda.csv")
+"""**************************************************************************************************************************"""
 """*************************************************LISTADO DE CONTACTOS*****************************************************"""
 """**************************************************************************************************************************"""
 
 """************************************************INTRODUCCIÓN DE DATOS*****************************************************"""
 def introducirContacto():
-    while(True):
-        input("Introduzca el apellido: ")
-        input("Introduzca el nombre: ")
-        input("Introduzca el apellido: ")
-        input("Introduzca la dirección: ")
-        input("Introduzca la provincia: ")
-        int(input("Introduzca el código postal: "))
-        int(input("Introduzca el teléfono: "))
-        input("Introduzca el email: ")
-        input("Introduzca si es: ")
 
+    while True:
+        # ================= DNI =================
+        with open(ruta_dni, "r", encoding="utf-8") as f:
+            letras_dni = f.readline().strip()
 
-        res = input("Desea añadir otro registro? (S/N)")
-        if(res == 'S'):
-            continue
-        else:
-            break
+        while True:
+            dni = input("Introduzca el DNI (12345678Z): ").upper()
+
+            if len(dni) != 9 or not dni[:8].isdigit():
+                print("Formato de DNI incorrecto")
+                continue
+
+            numero = int(dni[:8])
+            letra = dni[8]
+
+            if letras_dni[numero % 23] != letra:
+                print("Letra del DNI incorrecta")
+                cambiar = input("¿Desea cambiar el DNI? (S/N): ").upper()
+                if cambiar == "S":
+                    continue
+                else:
+                    break
+            else:
+                break
+
+        nombre = input("Introduzca el nombre: ")
+        apellidos = input("Introduzca los apellidos: ")
+        direccion = input("Introduzca la dirección: ")
+
+        # ================= CÓDIGO POSTAL =================
+        while True:
+            try:
+                cod_postal = input("Introduzca el código postal: ")
+                if len(cod_postal) != 5:
+                    raise ValueError
+                provincia_codigo = cod_postal[:2] #Saco los 2 primeros digitos
+                break
+            except ValueError:
+                print("Código postal inválido")
+
+        # ================= PROVINCIA =================
+        provincia = "DESCONOCIDA"
+        with open(ruta_provincias, "r", encoding="utf-8") as prov_file:
+            for linea in prov_file:
+                partes = linea.strip().split(";")
+                codigo = partes[0]
+                nombre_prov = partes[1]
+
+                if codigo == provincia_codigo:
+                    provincia = nombre_prov
+                    break
+
+        poblacion = input("Introduzca la población: ")
+        telefono = input("Introduzca el teléfono: ")
+        email = input("Introduzca el email: ")
+
+        activo = input("¿Contacto activo? (S/N): ").upper()
+        estado = "ACTIVO" if activo == "S" else "NO ACTIVO"
+
+        # ================= GUARDAR CONTACTO =================
+        with open(ruta_agenda, "a", encoding="utf-8") as agenda:
+            agenda.write(
+                f"{dni};{nombre};{apellidos};{direccion};{cod_postal};"
+                f"{provincia};{poblacion};{telefono};{email};{estado}\n"
+            )
+
+        print("Contacto añadido correctamente")
+
+        res = input("¿Desea añadir otro registro? (S/N): ").upper()
+        if res != "S":
+            break 
+
 
 """**************************************************************************************************************************"""
 
@@ -29,6 +93,9 @@ def introducirContacto():
 """******************************************************SISTEMA*************************************************************"""
 """**************************************************************************************************************************"""
 
+"""*******************************************************MENÚS**************************************************************"""
+"""**************************************************************************************************************************"""
+"""*****************************************************LIST MENU************************************************************"""
 def menuBusquedaContactos():
     print(r"""
     __    _      __            __             __                         __             __            
@@ -50,7 +117,7 @@ def menuBusquedaContactos():
         print("║3 .- Listar Provincias por Código Postal   ║")
 
         print("╠═══════════════════════════════════════════╣")
-        print("║ ( 0) SALIR                                ║")
+        print("║ ( 0) VOLVER                               ║")
         print("╚═══════════════════════════════════════════╝")
 
         opcion = input("Teclee la opción que desea realizar: ")
@@ -70,7 +137,8 @@ def menuBusquedaContactos():
                 print("\n\n")
             case "0":
                 print("Seleccione un número válido.\n")
-
+"""**************************************************************************************************************************"""
+"""******************************************INSERT MENU*********************************************************************"""
 def menuValidacionDatos():
     print(r"""
    ____     __              __             _  __            __      ___       __         
@@ -89,7 +157,7 @@ def menuValidacionDatos():
         print("║1 .- Introducción de un Contacto           ║")
 
         print("╠═══════════════════════════════════════════╣")
-        print("║ ( 0) SALIR                                ║")
+        print("║ ( 0) VOLVER                               ║")
         print("╚═══════════════════════════════════════════╝")
 
         opcion = input("Teclee la opción que desea realizar: ")
@@ -97,11 +165,12 @@ def menuValidacionDatos():
         match opcion:
             case "1":
                 print("\n\nEjecutando 'Introducir un Contacto'...\n")
-                #introducirContacto()
+                introducirContacto()
                 print("\n\n")
             case "0":
                 print("Seleccione un número válido.\n")
-
+"""**************************************************************************************************************************"""
+"""********************************************MODS MENU*********************************************************************"""
 def menuRelacionFicheros():
     print(r"""
    __  ___        ___ ____              _  __         ___       __         
@@ -121,7 +190,7 @@ def menuRelacionFicheros():
         print("║3 .- Modificar Por DNI                     ║")
 
         print("╠═══════════════════════════════════════════╣")
-        print("║ ( 0) SALIR                                ║")
+        print("║ ( 0) VOLVER                               ║")
         print("╚═══════════════════════════════════════════╝")
 
         opcion = input("Teclee la opción que desea realizar: ")
@@ -141,6 +210,8 @@ def menuRelacionFicheros():
                 print("\n\n")
             case "0":
                 print("Seleccione un número válido.\n")
+"""**************************************************************************************************************************"""
+"""***************************************************SYSTEM MENU************************************************************"""
 def menuSistema():
     print(r"""
    _____     __                
@@ -159,7 +230,7 @@ def menuSistema():
         print("║1 .- Crear copia de seguridad              ║")
         
         print("╠═══════════════════════════════════════════╣")
-        print("║ ( 0) SALIR                                ║")
+        print("║ ( 0) VOLVER                               ║")
         print("╚═══════════════════════════════════════════╝")
 
         opcion = input("Teclee la opción que desea realizar: ")
@@ -171,6 +242,9 @@ def menuSistema():
                 print("\n\n")
             case "0":
                 print("Seleccione un número válido.\n")
+
+"""**************************************************************************************************************************"""
+"""*****************************************************MAIN MENU************************************************************"""
 def menu():
     print(r"""
          ______   __  __     ______   __  __     ______     __   __
@@ -216,3 +290,4 @@ def menu():
                 print("Seleccione un número válido.\n")
 
 menu()
+"""**************************************************************************************************************************"""
