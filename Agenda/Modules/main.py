@@ -7,48 +7,71 @@ ruta_provincias = os.path.join(ruta_del_script, "..", "Data", "provincias.csv")
 ruta_agenda = os.path.join(ruta_del_script, "..", "Data", "agenda.csv")
 """**************************************************************************************************************************"""
 """*************************************************LISTADO DE CONTACTOS*****************************************************"""
+def mostrarTablaContactos(contactos):
+    if not contactos:
+        print("No hay contactos para mostrar\n")
+        return
+
+    print("╔════════════╦════════════════════╦════════════════════╦══════════════╦══════════════╗")
+    print("║ DNI        ║ Nombre             ║ Apellidos          ║ Provincia    ║ Estado       ║")
+    print("╠════════════╬════════════════════╬════════════════════╬══════════════╬══════════════╣")
+
+    for c in contactos:
+        print(f"║ {c[0]:<10} ║ {c[1]:<18} ║ {c[2]:<18} ║ {c[5]:<12} ║ {c[9]:<12} ║")
+
+    print("╚════════════╩════════════════════╩════════════════════╩══════════════╩══════════════╝\n")
+
 def listarContactos():
     print("\nLISTADO GENERAL DE CONTACTOS\n")
+    contactos = []
 
     try:
         with open(ruta_agenda, "r", encoding="utf-8") as agenda:
             for linea in agenda:
-                datos = linea.strip().split(";")
-                print(f"{datos[1]} {datos[2]} - {datos[0]} - {datos[5]} ({datos[9]})")
+                contactos.append(linea.strip().split(";"))
+
+        mostrarTablaContactos(contactos)
+
     except FileNotFoundError:
         print("No existe la agenda todavía")
 
 def listarContactosPorEstado():
     estado_busqueda = input("Mostrar contactos (ACTIVO / NO ACTIVO): ").upper()
-
-    print(f"\nCONTACTOS {estado_busqueda}\n")
+    contactos = []
 
     try:
         with open(ruta_agenda, "r", encoding="utf-8") as agenda:
             for linea in agenda:
                 datos = linea.strip().split(";")
                 if datos[9] == estado_busqueda:
-                    print(f"{datos[1]} {datos[2]} - {datos[0]} - {datos[5]}")
+                    contactos.append(datos)
+
+        print(f"\nCONTACTOS {estado_busqueda}\n")
+        mostrarTablaContactos(contactos)
+
     except FileNotFoundError:
         print("No existe la agenda todavía")
 
 def listarContactosPorProvincia():
     busqueda = input("Introduzca provincia o código postal (2 primeros dígitos): ")
-
-    print("\nCONTACTOS POR PROVINCIA\n")
+    contactos = []
 
     try:
         with open(ruta_agenda, "r", encoding="utf-8") as agenda:
             for linea in agenda:
                 datos = linea.strip().split(";")
-
                 provincia = datos[5]
                 codigo = datos[4][:2]
 
                 if busqueda.lower() == provincia.lower() or busqueda == codigo:
-                    print(f"{datos[1]} {datos[2]} - {provincia} ({datos[4]})")
+                    contactos.append(datos)
+
+        print("\nCONTACTOS POR PROVINCIA\n")
+        mostrarTablaContactos(contactos)
+
     except FileNotFoundError:
         print("No existe la agenda todavía")
+
 
 """**************************************************************************************************************************"""
 """************************************************INTRODUCCIÓN DE DATOS*****************************************************"""
