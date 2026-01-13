@@ -7,8 +7,50 @@ ruta_provincias = os.path.join(ruta_del_script, "..", "Data", "provincias.csv")
 ruta_agenda = os.path.join(ruta_del_script, "..", "Data", "agenda.csv")
 """**************************************************************************************************************************"""
 """*************************************************LISTADO DE CONTACTOS*****************************************************"""
-"""**************************************************************************************************************************"""
+def listarContactos():
+    print("\nLISTADO GENERAL DE CONTACTOS\n")
 
+    try:
+        with open(ruta_agenda, "r", encoding="utf-8") as agenda:
+            for linea in agenda:
+                datos = linea.strip().split(";")
+                print(f"{datos[1]} {datos[2]} - {datos[0]} - {datos[5]} ({datos[9]})")
+    except FileNotFoundError:
+        print("No existe la agenda todavía")
+
+def listarContactosPorEstado():
+    estado_busqueda = input("Mostrar contactos (ACTIVO / NO ACTIVO): ").upper()
+
+    print(f"\nCONTACTOS {estado_busqueda}\n")
+
+    try:
+        with open(ruta_agenda, "r", encoding="utf-8") as agenda:
+            for linea in agenda:
+                datos = linea.strip().split(";")
+                if datos[9] == estado_busqueda:
+                    print(f"{datos[1]} {datos[2]} - {datos[0]} - {datos[5]}")
+    except FileNotFoundError:
+        print("No existe la agenda todavía")
+
+def listarContactosPorProvincia():
+    busqueda = input("Introduzca provincia o código postal (2 primeros dígitos): ")
+
+    print("\nCONTACTOS POR PROVINCIA\n")
+
+    try:
+        with open(ruta_agenda, "r", encoding="utf-8") as agenda:
+            for linea in agenda:
+                datos = linea.strip().split(";")
+
+                provincia = datos[5]
+                codigo = datos[4][:2]
+
+                if busqueda.lower() == provincia.lower() or busqueda == codigo:
+                    print(f"{datos[1]} {datos[2]} - {provincia} ({datos[4]})")
+    except FileNotFoundError:
+        print("No existe la agenda todavía")
+
+"""**************************************************************************************************************************"""
 """************************************************INTRODUCCIÓN DE DATOS*****************************************************"""
 def introducirContacto():
 
@@ -20,22 +62,25 @@ def introducirContacto():
         while True:
             dni = input("Introduzca el DNI (12345678Z): ").upper()
 
-            if len(dni) != 9 or not dni[:8].isdigit():
+            # Comprobación de formato
+            if len(dni) != 9:
                 print("Formato de DNI incorrecto")
                 continue
 
+            # Separar número y letra
             numero = int(dni[:8])
             letra = dni[8]
 
-            if letras_dni[numero % 23] != letra:
-                print("Letra del DNI incorrecta")
-                cambiar = input("¿Desea cambiar el DNI? (S/N): ").upper()
-                if cambiar == "S":
-                    continue
-                else:
-                    break
-            else:
-                break
+            # Comprobar letra
+            letra_correcta = letras_dni[numero % 23]
+
+            if letra != letra_correcta:
+                print(f"Letra del DNI incorrecta. Debería ser {letra_correcta}")
+                continue
+
+            # DNI válido
+            print("DNI válido")
+            break
 
         nombre = input("Introduzca el nombre: ")
         apellidos = input("Introduzca los apellidos: ")
@@ -86,8 +131,85 @@ def introducirContacto():
 
 
 """**************************************************************************************************************************"""
-
 """************************************************MODIFICACIÓN DE DATOS*****************************************************"""
+def modDni():
+    dni_buscar = input("Introduzca el DNI del contacto a modificar: ").upper()
+    contactos = []
+    encontrado = False
+
+    #Leer agenda completa
+    with open(ruta_agenda, "r", encoding="utf-8") as agenda:
+        for linea in agenda:
+            datos = linea.strip().split(";")
+            contactos.append(datos)
+
+    #Buscar contacto
+    for contacto in contactos:
+        if contacto[0] == dni_buscar:
+            encontrado = True
+            print("\nContacto encontrado:")
+            print(f"Nombre: {contacto[1]}")
+            print(f"Apellidos: {contacto[2]}")
+            print(f"Teléfono: {contacto[7]}")
+            print(f"Email: {contacto[8]}")
+
+            #Modificar campo
+            nuevo_tel = input("Nuevo teléfono (Enter para no cambiar): ")
+            if nuevo_tel != "":
+                contacto[7] = nuevo_tel
+
+            nuevo_email = input("Nuevo email (Enter para no cambiar): ")
+            if nuevo_email != "":
+                contacto[8] = nuevo_email
+
+            nuevo_estado = input("¿Activo? (S/N, Enter para no cambiar): ").upper()
+            if nuevo_estado == "S":
+                contacto[9] = "ACTIVO"
+            elif nuevo_estado == "N":
+                contacto[9] = "NO ACTIVO"
+
+            break
+
+    if not encontrado:
+        print("DNI no encontrado")
+        return
+
+    #Reescribir agenda
+    with open(ruta_agenda, "w", encoding="utf-8") as agenda:
+        for c in contactos:
+            agenda.write(";".join(c) + "\n")
+
+    print("Contacto modificado correctamente")
+
+def borrarContacto():
+    dni_borrar = input("Introduzca el DNI del contacto a borrar: ").upper()
+    contactos = []
+    eliminado = False
+
+    with open(ruta_agenda, "r", encoding="utf-8") as agenda:
+        for linea in agenda:
+            datos = linea.strip().split(";")
+            if datos[0] == dni_borrar:
+                eliminado = True
+            else:
+                contactos.append(datos)
+
+    if not eliminado:
+        print("DNI no encontrado")
+        return
+
+    confirm = input("¿Seguro que desea borrar el contacto? (S/N): ").upper()
+    if confirm != "S":
+        print("Operación cancelada")
+        return
+
+    with open(ruta_agenda, "w", encoding="utf-8") as agenda:
+        for c in contactos:
+            agenda.write(";".join(c) + "\n")
+
+    print("Contacto eliminado correctamente")
+
+
 """**************************************************************************************************************************"""
 
 """******************************************************SISTEMA*************************************************************"""
@@ -125,15 +247,15 @@ def menuBusquedaContactos():
         match opcion:
             case "1":
                 print("\n\nEjecutando 'Listado de contactos'...\n")
-                #listarContactos()
+                listarContactos()
                 print("\n\n")
             case "2":
                 print("\n\nEjecutando 'Actividad de contactos'...\n")
-                #listarActividad()
+                listarContactosPorEstado()
                 print("\n\n")
             case "3":
                 print("\n\nEjecutando 'Listar por Código postal/Provincia'...\n")
-                #listarProvincias()
+                listarContactosPorProvincia()
                 print("\n\n")
             case "0":
                 print("Seleccione un número válido.\n")
@@ -182,12 +304,10 @@ def menuRelacionFicheros():
 
     while opcion != "0":
         print("╔═══════════════════════════════════════════╗")
-        print("║             📘 MENÚ MODS                  ║")
+        print("║         📘 MENÚ MODS / BORRADO            ║")
         print("╠═══════════════════════════════════════════╣")
 
         print("║1 .- Modificar Por Nombre                  ║")
-        print("║2 .- Modificar Por Apellido                ║")
-        print("║3 .- Modificar Por DNI                     ║")
 
         print("╠═══════════════════════════════════════════╣")
         print("║ ( 0) VOLVER                               ║")
@@ -197,16 +317,12 @@ def menuRelacionFicheros():
 
         match opcion:
             case "1":
-                print("\n\nEjecutando 'Modificar por nombre'...\n")
-                #modNombre()
+                print("\n\nEjecutando 'Modifacar por DNI'...\n")
+                modDni()
                 print("\n\n")
             case "2":
-                print("\n\nEjecutando 'Modificar por apellido'...\n")
-                #modApellido()
-                print("\n\n")
-            case "3":
-                print("\n\nEjecutando 'Modifacar por DNI'...\n")
-                #modDni()
+                print("\n\nEjecutando 'Borrado por DNI'...\n")
+                borrarContacto()
                 print("\n\n")
             case "0":
                 print("Seleccione un número válido.\n")
@@ -263,7 +379,7 @@ def menu():
 
         print("║1 .- Gestión y Búsqueda de Contactos       ║")
         print("║2 .- Introducción de Datos                 ║")
-        print("║3 .- Modificación de Datos                 ║")
+        print("║3 .- Modificación y Borrado de Datos       ║")
         print("║4 .- Administración del Sistema            ║")
 
         print("╠═══════════════════════════════════════════╣")
