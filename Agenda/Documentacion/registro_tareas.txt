@@ -1,4 +1,70 @@
-#Introduccion de Datos
-- Validación DNI con CSV
-- Control de errores con while
-- Guardado correcto en agenda.csv
+==========================================================================
+                📂 REGISTRO DE TAREAS Y LÓGICA TÉCNICA
+==========================================================================
+
+Este documento actúa como bitácora de desarrollo del sistema de Agenda. 
+Aquí se detallan los hitos técnicos, la resolución de problemas y la 
+implementación de las funciones principales.
+
+OBJETIVOS DEL REGISTRO:
+1. Documentar la lógica detrás de cada módulo.
+2. Registrar las validaciones de datos implementadas (DNI, CP, Email).
+3. Explicar el manejo de archivos CSV y la persistencia de datos.
+
+==========================================================================
+
+<-REGISTRO DE TAREAS POR MÓDULOS->
+----------------------------------
+
+# Configuración y Funciones Globales
+1. Gestión de rutas dinámicas con os.path para asegurar portabilidad.
+2. Algoritmo de validación de DNI (Módulo 23) consultando dni.csv.
+3. Diseño de tablas en ASCII para una visualización profesional de datos.
+
+# Gestión y Búsqueda (List Menu)
+1. Lectura y filtrado de datos desde agenda.csv con manejo de errores.
+2. Búsqueda flexible por nombre o apellido mediante subcadenas (in).
+3. Filtrado por provincias usando los dos primeros dígitos del CP.
+
+# Introducción de Datos (Insert Menu)
+1. Validación de DNI en bucle while hasta que sea correcto.
+2. Control de integridad del Código Postal (longitud 5) con try-except.
+3. Relación de ficheros: asignación automática de Provincia según el CP.
+4. Guardado persistente en modo append ("a") con codificación UTF-8.
+
+# Modificación y Borrado (Mods Menu)
+1. Carga de datos en memoria para edición selectiva de campos.
+2. Lógica de "Enter para mantener": evita reescribir datos innecesarios.
+3. Confirmación de seguridad previa al borrado permanente.
+4. Actualización del fichero mediante sobrescritura controlada ("w").
+
+# Estadísticas (Stats Menu)
+1. Cálculo de totales y segmentación por estado de actividad.
+2. Uso de diccionarios para identificar la provincia con mayor volumen.
+3. Formateo de salida con dos decimales para porcentajes de actividad.
+
+<-MENÚS->
+---------
+1. Menú List (Búsquedas)
+"Mi prioridad aquí fue la experiencia de usuario. He implementado una visualización en tablas ASCII que facilita la lectura. Además, las búsquedas no son rígidas: puedes buscar por nombre o apellido parcial, y el sistema filtra automáticamente por provincia analizando solo la raíz del código postal."
+
+2. Menú Inserts (Introducción)
+"Este menú garantiza la integridad de la base de datos. He aplicado una validación robusta: el sistema no permite avanzar si el DNI es falso o el CP es erróneo. Además, utilizo una relación entre ficheros para que el usuario no tenga que escribir la provincia manualmente, reduciendo así los errores humanos."
+
+3. Menú Mods / Borrado (Mantenimiento)
+"Aquí apliqué una lógica de edición no destructiva. El usuario puede modificar solo el campo que necesite pulsando 'Enter' para conservar el resto, lo que hace el proceso mucho más ágil. 
+Para el borrado, incluí un paso de confirmación obligatorio para evitar pérdidas accidentales de información."
+
+4. Menú Estadísticas (Análisis)
+"El objetivo de este menú es transformar los datos en información útil. Utilizo estructuras de diccionarios para procesar grandes volúmenes de contactos de forma eficiente, permitiendo obtener en segundos el porcentaje de actividad y detectar tendencias geográficas en la agenda."
+
+5. Menú Principal (Arquitectura)
+"He diseñado una arquitectura modular y escalable. El uso de match-case hace que el flujo sea mucho más limpio que los antiguos if-else, y el manejo de rutas relativas permite que el programa funcione en cualquier ordenador sin tener que cambiar ni una sola línea de código."
+
+<-IMPORTS->
+-----------
+"Optimización de la portabilidad mediante os.path":
+
+-Referencia absoluta: El script identifica su propia ubicación.
+-Salto de directorios: Construye el camino hacia los CSV subiendo a la raíz del proyecto.
+-Robustez: Asegura que el código funcione en cualquier equipo sin modificar rutas fijas.

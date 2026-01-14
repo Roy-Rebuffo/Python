@@ -1,0 +1,36 @@
+==========================================================================
+                📘 GUÍA DE USUARIO - SISTEMA DE AGENDA
+==========================================================================
+
+Este proyecto está estructurado de forma modular para separar la lógica de 
+ejecución, la persistencia de datos y la documentación.
+
+📂 ESTRUCTURA DE CARPETAS:
+
+1. 📂 /Modules
+   - Contiene el núcleo del programa.
+   - main.py: Es el archivo principal que debes ejecutar para iniciar 
+     la aplicación y navegar por los menús.
+
+2. 📂 /Data (Base de Datos en CSV)
+   Aquí se almacena toda la información que el programa lee y escribe:
+   - agenda.csv: Almacena todos los contactos guardados (nombre, DNI, 
+     teléfono, etc.).
+   - dni.csv: Contiene la secuencia de letras necesaria para el 
+     algoritmo de validación de DNIs españoles.
+   - provincias.csv: Listado maestro que relaciona los códigos postales 
+     con sus respectivas provincias (Ej: 28 -> Madrid).
+
+3. 📂 /Documentacion
+   - guia_usuario.txt: Este archivo (explicación de la estructura).
+   - registro_tareas.txt: Bitácora técnica con el desarrollo paso a 
+     paso del código.
+
+--------------------------------------------------------------------------
+CÓMO EMPEZAR:
+1. Abre una terminal en la carpeta raíz del proyecto.
+2. Ejecuta el script principal mediante el botón de play arriba a la
+    derecha en VS.Code: python Modules/main.py
+3. Asegúrate de no borrar ningún archivo de la carpeta /Data, ya que 
+   son esenciales para el funcionamiento del sistema.
+==========================================================================
